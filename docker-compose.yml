@@ -1,0 +1,29 @@
+version: "3"
+services:
+  frontend:
+    image: react-app
+    depends_on:
+      - backend
+    ports: 
+      - "4000:4000"
+    networks:
+      - frontend-network
+  backend:
+    image: api-server
+    ports:
+      - "3000:3000"
+    networks:
+      - backend-network
+      - frontend-network
+    depends_on:
+      - mysqldb
+  mysqldb:
+    image: mysql:5.7
+    networks:
+      - backend-network
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_DATABASE=testdb
+networks:
+  frontend-network:
+  backend-network:

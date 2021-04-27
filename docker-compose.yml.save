@@ -1,0 +1,31 @@
+version: "3"
+services:
+  frontend:
+    image: react-app
+    depends_on:
+      - backend
+    ports: 
+      - "3000:3000"
+    networks:
+      - frontend-network
+  backend:
+    image: api-server
+    ports:
+      - "5000:5000"
+    networks:
+      - backend-network
+      - frontend-network
+    depends_on:
+      - mysqldb
+  mysqldb:
+    image: mysql
+    networks:
+      - backend-network
+    environment:
+      - MYSQL_ROOT_PASSWORD= root
+  - MYSQL_HOST= localhost
+      - MYSQL_USER =root
+      - MYSQL_DATABASE=testdb
+networks:
+  frontend-network:
+  backend-network:
